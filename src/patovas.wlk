@@ -1,3 +1,4 @@
+import personas.*
 
 object rochensen {
 	method exam (persona){
