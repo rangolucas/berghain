@@ -7,6 +7,10 @@ object mainRoom {
 	method personasBailando() {
 		return personasBailando
 	}
+	
+	method personasBailando(setDePersonas) {
+		personasBailando = setDePersonas
+	}
 
   	method nuevoBailarin(persona){
     	personasBailando.add(persona)
@@ -32,6 +36,10 @@ object panoramaBar {
 
 	method personasBailando() {
 		return personasBailando
+	}
+	
+	method personasBailando(setDePersonas) {
+		personasBailando = setDePersonas
 	}
 
   	method nuevoBailarin(persona){
@@ -65,6 +73,10 @@ object darkRoom {
   	method personasBailando() {
     	return personasBailando
   	}
+  	
+	method personasBailando(setDePersonas) {
+		personasBailando = setDePersonas
+	}
 
   	method nuevoBailarin(persona){
     	personasBailando.add(persona)

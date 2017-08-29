@@ -1,19 +1,19 @@
 import personas.*
 
 object rochensen {
-	method exam (persona){
+	method examinar (persona){
 		return persona.edad() > 21
 	}
 }
 
 object rodrigsen {
-	method exam (persona){
+	method examinar (persona){
 		return persona.colorDeRemera() == "negra"
 	}
 }
 	
 object gushtavotruccensen{
-	method exam (persona){
+	method examinar (persona){
 		return false
 	}
 }

@@ -1,0 +1,130 @@
+import djs.*
+import patovas.*
+import pistas.*
+import berghain.*
+import personas.*
+
+describe "berghain" {
+	test "vonLukaz intenta entrar a mainRoom con rochensen como patova y falla" {
+		vonLukaz.entrar(rochensen, mainRoom)
+		assert.notThat(mainRoom.personasBailando().contains(vonLukaz))
+	}
+	
+	test "vonLukaz intenta entrar a panoramaBar con rodrigsen como patova y falla" {
+		vonLukaz.entrar(rodrigsen, panoramaBar)
+		assert.notThat(mainRoom.personasBailando().contains(vonLukaz))
+	}
+	
+	test "bianker intenta entrar a darkRoom con rodrigsen como patova y puede" {
+		bianker.entrar(rodrigsen, darkRoom)
+		assert.that(darkRoom.personasBailando().contains(bianker))
+	}
+	
+	test "gonzen intenta entrar a mainRoom con gus como patova y falla" {
+	gonzen.entrar(gushtavotruccensen, mainRoom)
+	assert.notThat(mainRoom.personasBailando().contains(gonzen))
+	}
+	
+	test "gonzen y bianker estan en mainRoom y bailan todos, gonzen queda con 50 de energia" {
+		mainRoom.personasBailando(#{gonzen, bianker})
+		berghain.bailanTodos(mainRoom)
+		assert.equals(gonzen.energia(), 50)
+	}
+	
+	test "gonzen y bianker estan en mainRoom y bailan todos, bianker queda con 100 de energia" {
+		mainRoom.personasBailando(#{gonzen, bianker})
+		berghain.bailanTodos(mainRoom)
+		assert.equals(bianker.energia(), 100)
+	}
+	
+	test "gonzen y bianker estan en mainRoom y bailan todos, gonzen queda con 45 de diversion" {
+		mainRoom.personasBailando(#{gonzen, bianker})
+		berghain.bailanTodos(mainRoom)
+		assert.equals(gonzen.diversion(), 45)
+	}
+	
+	test "gonzen y bianker estan en mainRoom y bailan todos, bianker queda con 110 de diversion" {
+		mainRoom.personasBailando(#{gonzen, bianker})
+		berghain.bailanTodos(mainRoom)
+		assert.equals(bianker.diversion(), 110)
+	}
+	
+	test "vonLukaz y bianker estan en panoramaBar y bailan todos (dj dixon), vonLukaz queda con 90 de energia" {
+		panoramaBar.personasBailando(#{vonLukaz, bianker})
+		panoramaBar.djDeTurno(dixon)
+		berghain.bailanTodos(panoramaBar)
+		assert.equals(vonLukaz.energia(), 90)
+	}
+	
+	test "vonLukaz y bianker estan en panoramaBar y bailan todos (dj dixon), bianker queda con 200 de diversion" {
+		panoramaBar.personasBailando(#{vonLukaz, bianker})
+		panoramaBar.djDeTurno(dixon)
+		berghain.bailanTodos(panoramaBar)
+		assert.equals(bianker.diversion(), 200)
+	}
+	
+	test "vonLukaz y gonzen estan en panoramaBar y bailan todos (dj marcel), vonLukaz queda con 1070 de diversion" {
+		panoramaBar.personasBailando(#{vonLukaz, gonzen})
+		panoramaBar.djDeTurno(marcelDettmann)
+		berghain.bailanTodos(panoramaBar)
+		assert.equals(vonLukaz.diversion(), 1070)
+	}
+	
+	test "vonLukaz y gonzen estan en panoramaBar y bailan todos (dj marcel), gonzen queda con 0 de energia" {
+		panoramaBar.personasBailando(#{vonLukaz, gonzen})
+		panoramaBar.djDeTurno(marcelDettmann)
+		berghain.bailanTodos(panoramaBar)
+		assert.equals(gonzen.energia(), 0)
+	}
+	
+	test "gonzen y bianker estan en panoramaBar y bailan todos (dj tommy), gonzen queda con 0 de diversion" {
+		panoramaBar.personasBailando(#{bianker, gonzen})
+		panoramaBar.djDeTurno(tommyMunoz)
+		berghain.bailanTodos(panoramaBar)
+		assert.equals(gonzen.diversion(), 0)
+	}
+	
+	test "gonzen y bianker estan en panoramaBar y bailan todos (dj tommy), bianker queda con 60 de energia" {
+		panoramaBar.personasBailando(#{bianker, gonzen})
+		panoramaBar.djDeTurno(tommyMunoz)
+		berghain.bailanTodos(panoramaBar)
+		assert.equals(bianker.energia(), 60)
+	}
+	
+	test "bailan gonzen, bianker y vonLukaz en darkroom, gonzen queda con 90 de energia" {
+		darkRoom.personasBailando(#{vonLukaz, bianker, gonzen})
+		berghain.bailanTodos(darkRoom)
+		assert.equals(gonzen.energia(), 90)
+	}
+	
+	test "bailan gonzen, bianker y vonLukaz en darkroom, bianker queda con 140 de energia" {
+		darkRoom.personasBailando(#{vonLukaz, bianker, gonzen})
+		berghain.bailanTodos(darkRoom)
+		assert.equals(bianker.energia(), 140)
+	}
+	
+	test "bailan gonzen, bianker y vonLukaz en darkroom, vonLukaz queda con 70 de diversion" {
+		darkRoom.personasBailando(#{vonLukaz, bianker, gonzen})
+		berghain.bailanTodos(darkRoom)
+		assert.equals(vonLukaz.diversion(), 70)
+	}
+	
+	test "bailan gonzen y bianker en darkRoom, baila vonLukaz en mainRoom (cantidad de personas)" {
+		darkRoom.personasBailando(#{bianker, gonzen})
+		mainRoom.personasBailando(#{vonLukaz})
+		assert.equals(berghain.cantidadBailarinesXPista(), #{1, 0, 2})
+	}
+	
+	test "gonzen y bianker estan bailando en darkRoom (gonzen esta en una pista)" {
+		darkRoom.personasBailando(#{gonzen, bianker})
+		assert.that(berghain.estaBailandoGonzen())
+	}
+	
+	test "gonzen no esta en ninguna pista" {
+		darkRoom.personasBailando(#{bianker})
+		mainRoom.personasBailando(#{vonLukaz})
+		panoramaBar.personasBailando(#{})
+		assert.notThat(berghain.estaBailandoGonzen())
+	}
+
+}

@@ -1,3 +1,5 @@
+import pistas.*
+
 object berghain {
   const pistas = #{mainRoom, panoramaBar, darkRoom}
 
